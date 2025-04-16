@@ -5,7 +5,7 @@ import './global.css'
 
 export function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/dxf-parametric-cut">
       <Router />
     </BrowserRouter>
   )
