@@ -2,11 +2,12 @@ import Drawing from 'dxf-writer'
 
 interface Props {
   fileType: string // Tipo de arquivo
-  valueA: string // raio / comprimento
-  valueB: string // largura
+  [key: string]: string
 }
 
-export function DXFCreate({ fileType, valueA, valueB }: Props): void {
+export function DXFCreate({ fileType, ...props }: Props): void {
+  const { valueA, valueB } = props
+
   const draw = new Drawing()
   draw.setUnits('Millimeters')
   let nameFile = 'arquivo_modificado'
@@ -49,7 +50,7 @@ const CreateCircle = (draw: Drawing, valueA: string) => {
 /**
  * Cria um retangulo
  */
-const CreateRectangle = (draw: Drawing, valueA: string, valueB: string, x: number = 0) => {
+const CreateRectangle = (draw: Drawing, valueA: string, valueB: string) => {
   const comprimento = parseFloat(valueB.replace(',', '.'))
   const largura = parseFloat(valueA.replace(',', '.'))
 

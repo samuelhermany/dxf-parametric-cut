@@ -1,18 +1,14 @@
-import { useState, ChangeEvent, FormEvent } from 'react'
-import { DXFCreate } from './DxfCreate'
-import { CaretCircleLeft } from 'phosphor-react'
+import React, { useState, ChangeEvent, FormEvent } from 'react'
+import { DXFCreate } from '../../components/dxfCreate'
 
-import imgDimensions from '../img/dimensions.png'
+import img from '../../img/washer.png'
 
-import styles from './dimension.module.css'
+import styles from '../Rectangle/Rectangle.module.css'
 
-export function Dimension() {
+export function Washer() {
   const [valueA, setValueA] = useState('')
   const [valueB, setValueB] = useState('')
 
-  function handlePreviewsPage() {
-    console.log('click handlePreviewsPage')
-  }
   function handleClear() {
     setValueA('')
     setValueB('')
@@ -27,9 +23,7 @@ export function Dimension() {
   }
 
   // Valida números, e apensas um ponto ou vírgula
-  function handleInputInvalid(
-    event: FormEvent<HTMLInputElement> & { data: string }
-  ) {
+  function handleInputInvalid(event: FormEvent<HTMLInputElement> & { data: string }) {
     const input = event.currentTarget
     const currentValue = input.value
     const newChar = event.data
@@ -46,22 +40,27 @@ export function Dimension() {
       event.preventDefault()
     }
   }
-  const testeValor = ['rectangle', 'circle', 'washer', 'washerSquare']
+
+  function handleCreateDXF(event: React.MouseEvent<HTMLButtonElement>): void {
+    event.preventDefault()
+    if (valueA !== '' && valueB !== '') {
+      DXFCreate({ fileType: 'washer', valueA, valueB })
+    }
+  }
 
   return (
     <div className={styles.container}>
-      <CaretCircleLeft weight="fill" onClick={handlePreviewsPage} />
       <main>
         <div className={styles.dimensions}>
-          <img src={imgDimensions} alt="dimensions" />
+          <img src={img} alt="dimensions" />
         </div>
         <form className={styles.inputs}>
           <div>
-            <p>A</p>
+            <p>D1</p>
             <input
               type="text"
               name="dimensions A"
-              title="dimensions A"
+              title="Diâmetro Externo"
               placeholder="Digite um valor"
               onInput={handleInputChangeA}
               onBeforeInput={handleInputInvalid}
@@ -70,10 +69,10 @@ export function Dimension() {
             />
           </div>
           <div>
-            <p>B</p>
+            <p>D2</p>
             <input
               type="text"
-              title="dimensions B"
+              title="Diâmetro Interno"
               placeholder="Digite um valor"
               onInput={handleInputChangeB}
               onBeforeInput={handleInputInvalid}
@@ -85,13 +84,7 @@ export function Dimension() {
             <button type="button" onClick={handleClear}>
               Clear
             </button>
-            {/* <button type="submit" onClick={() => DxfCreate({ valueA, valueB })}> */}
-            <button
-              type="submit"
-              onClick={() =>
-                DXFCreate({ fileType: testeValor[3], valueA, valueB })
-              }
-            >
+            <button type="submit" onClick={handleCreateDXF}>
               Save DXF
             </button>
           </footer>
