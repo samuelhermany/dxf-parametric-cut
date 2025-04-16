@@ -6,6 +6,6 @@ export default defineConfig({
   plugins: [react()],
   server: {
     open: true, // Isso abre o navegador automaticamente
-    port: 3001, // Define a porta que você quer usar
+    port: 3000, // Define a porta que você quer usar
   },
 })

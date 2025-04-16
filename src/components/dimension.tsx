@@ -1,9 +1,10 @@
 import { useState, ChangeEvent, FormEvent } from 'react'
+import { DXFCreate } from './DxfCreate'
 import { CaretCircleLeft } from 'phosphor-react'
+
 import imgDimensions from '../img/dimensions.png'
 
 import styles from './dimension.module.css'
-import { CreateDXF } from './createDXF'
 
 export function Dimension() {
   const [valueA, setValueA] = useState('')
@@ -45,6 +46,7 @@ export function Dimension() {
       event.preventDefault()
     }
   }
+  const testeValor = ['rectangle', 'circle', 'washer', 'washerSquare']
 
   return (
     <div className={styles.container}>
@@ -83,7 +85,13 @@ export function Dimension() {
             <button type="button" onClick={handleClear}>
               Clear
             </button>
-            <button type="submit" onClick={() => CreateDXF({ valueA, valueB })}>
+            {/* <button type="submit" onClick={() => DxfCreate({ valueA, valueB })}> */}
+            <button
+              type="submit"
+              onClick={() =>
+                DXFCreate({ fileType: testeValor[3], valueA, valueB })
+              }
+            >
               Save DXF
             </button>
           </footer>
