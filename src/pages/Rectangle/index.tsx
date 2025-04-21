@@ -1,9 +1,12 @@
-import { useState, ChangeEvent, FormEvent } from 'react'
+import { useState } from 'react'
 import { DXFCreate } from '../../components/dxfCreate'
 
 import img from '../../img/rectangle.png'
 
 import styles from './Rectangle.module.css'
+import { Input } from '../../components/Input'
+import { Button } from '../../components/Button'
+import { Imagem } from '../../components/Imagem'
 
 export function Rectangle() {
   const [valueA, setValueA] = useState('')
@@ -12,33 +15,6 @@ export function Rectangle() {
   function handleClear() {
     setValueA('')
     setValueB('')
-  }
-
-  const handleInputChangeA = (event: ChangeEvent<HTMLInputElement>) => {
-    setValueA(event.target.value)
-  }
-
-  const handleInputChangeB = (event: ChangeEvent<HTMLInputElement>) => {
-    setValueB(event.target.value)
-  }
-
-  // Valida números, e apensas um ponto ou vírgula
-  function handleInputInvalid(event: FormEvent<HTMLInputElement> & { data: string }) {
-    const input = event.currentTarget
-    const currentValue = input.value
-    const newChar = event.data
-
-    if (!newChar) return
-
-    // Valida mais de um vírgula
-    const cursorPos = input.selectionStart ?? currentValue.length
-    const finalValue =
-      currentValue.slice(0, cursorPos) + newChar + currentValue.slice(cursorPos)
-
-    // Só permite números, ponto ou vírgula
-    if (!/^\d*([,]\d*)?$/.test(finalValue)) {
-      event.preventDefault()
-    }
   }
 
   function handleCreateDXF(event: React.MouseEvent<HTMLButtonElement>): void {
@@ -52,41 +28,14 @@ export function Rectangle() {
     <div className={styles.container}>
       <main>
         <div className={styles.dimensions}>
-          <img src={img} alt="dimensions" />
+          <Imagem imgSrc={img} alt="dimensions" />
         </div>
         <form className={styles.inputs}>
-          <div>
-            <p>A</p>
-            <input
-              type="text"
-              name="dimensions A"
-              title="Largura"
-              placeholder="Digite um valor"
-              onInput={handleInputChangeA}
-              onBeforeInput={handleInputInvalid}
-              value={valueA}
-              required
-            />
-          </div>
-          <div>
-            <p>B</p>
-            <input
-              type="text"
-              title="Comprimento"
-              placeholder="Digite um valor"
-              onInput={handleInputChangeB}
-              onBeforeInput={handleInputInvalid}
-              value={valueB}
-              required
-            />
-          </div>
+          <Input label="D1" title="Largura" value={valueA} setValue={setValueA} />
+          <Input label="D2" title="Comprimento" value={valueB} setValue={setValueB} />
           <footer className={styles.buttons}>
-            <button type="button" onClick={handleClear}>
-              Clear
-            </button>
-            <button type="submit" onClick={handleCreateDXF}>
-              Save DXF
-            </button>
+            <Button type="button" text="Clear" onClick={handleClear} />
+            <Button type="submit" text="Save DXF" onClick={handleCreateDXF} />
           </footer>
         </form>
       </main>
