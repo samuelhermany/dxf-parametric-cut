@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { DXFCreate } from '../../components/dxfCreate'
 
-import img from '../../img/circle.png'
+import img from '../../assets/img/circle.png'
 
 import styles from '../Rectangle/Rectangle.module.css'
 import { Imagem } from '../../components/Imagem'
@@ -30,7 +30,7 @@ export function Circle() {
         </div>
         <form className={styles.inputs}>
           {/* Passa o Value e o State para o componente Input */}
-          <Input label="D" title="Diâmetro Externo" value={valueA} setValue={setValueA} />
+          <Input label="ØA" title="Diâmetro Externo" value={valueA} setValue={setValueA} />
           <footer className={styles.buttons}>
             <Button type="button" text="Clear" onClick={handleClear} />
             <Button type="submit" text="Save DXF" onClick={handleCreateDXF} />

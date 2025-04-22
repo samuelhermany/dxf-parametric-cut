@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { DXFCreate } from '../../components/dxfCreate'
 
-import img from '../../img/rectangle.png'
+import img from '../../assets/img/rectangle.png'
 
 import styles from './Rectangle.module.css'
 import { Input } from '../../components/Input'
@@ -31,8 +31,8 @@ export function Rectangle() {
           <Imagem imgSrc={img} alt="dimensions" />
         </div>
         <form className={styles.inputs}>
-          <Input label="D1" title="Largura" value={valueA} setValue={setValueA} />
-          <Input label="D2" title="Comprimento" value={valueB} setValue={setValueB} />
+          <Input label="A" title="Largura" value={valueA} setValue={setValueA} />
+          <Input label="B" title="Comprimento" value={valueB} setValue={setValueB} />
           <footer className={styles.buttons}>
             <Button type="button" text="Clear" onClick={handleClear} />
             <Button type="submit" text="Save DXF" onClick={handleCreateDXF} />

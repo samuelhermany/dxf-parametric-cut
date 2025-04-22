@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { DXFCreate } from '../../components/dxfCreate'
 
-import img from '../../img/washer.png'
+import img from '../../assets/img/washer.png'
 
 import styles from '../Rectangle/Rectangle.module.css'
 import { Imagem } from '../../components/Imagem'
@@ -31,8 +31,8 @@ export function Washer() {
           <Imagem imgSrc={img} alt="dimensions" />
         </div>
         <form className={styles.inputs}>
-          <Input label="D1" title="Diâmetro Externo" value={valueA} setValue={setValueA} />
-          <Input label="D2" title="Diâmetro Interno" value={valueB} setValue={setValueB} />
+          <Input label="ØA" title="Diâmetro Externo" value={valueA} setValue={setValueA} />
+          <Input label="ØB" title="Diâmetro Interno" value={valueB} setValue={setValueB} />
           <footer className={styles.buttons}>
             <Button type="button" text="Clear" onClick={handleClear} />
             <Button type="submit" text="Save DXF" onClick={handleCreateDXF} />
