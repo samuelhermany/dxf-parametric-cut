@@ -7,8 +7,12 @@ import styles from '../Rectangle/Rectangle.module.css'
 import { Imagem } from '../../components/Imagem'
 import { Input } from '../../components/Input'
 import { Button } from '../../components/Button'
+import { useLocation } from 'react-router-dom'
 
 export function Circle() {
+  const location = useLocation()
+  const model = location.state?.model
+
   const [valueA, setValueA] = useState('')
 
   function handleClear() {
@@ -18,7 +22,7 @@ export function Circle() {
   function handleCreateDXF(event: React.MouseEvent<HTMLButtonElement>): void {
     event.preventDefault()
     if (valueA !== '') {
-      DXFCreate({ fileType: 'circle', valueA })
+      DXFCreate({ fileType: model, valueA })
     }
   }
 
@@ -30,7 +34,7 @@ export function Circle() {
         </div>
         <form className={styles.inputs}>
           {/* Passa o Value e o State para o componente Input */}
-          <Input label="ØA" title="Diâmetro Externo" value={valueA} setValue={setValueA} />
+          <Input label="ØA" title="Diâmetro" value={valueA} setValue={setValueA} />
           <footer className={styles.buttons}>
             <Button type="button" text="Clear" onClick={handleClear} />
             <Button type="submit" text="Save DXF" onClick={handleCreateDXF} />

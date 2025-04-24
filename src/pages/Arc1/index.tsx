@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { DXFCreate } from '../../components/dxfCreate'
 
-import img from '../../assets/img/washer.png'
+import img from '../../assets/img/arc1.png'
 
 import styles from '../Rectangle/Rectangle.module.css'
 import { Imagem } from '../../components/Imagem'
@@ -9,7 +9,7 @@ import { Input } from '../../components/Input'
 import { Button } from '../../components/Button'
 import { useLocation } from 'react-router-dom'
 
-export function Washer() {
+export function Arc1() {
   const location = useLocation()
   const model = location.state?.model
 
@@ -35,8 +35,8 @@ export function Washer() {
           <Imagem imgSrc={img} alt="dimensions" />
         </div>
         <form className={styles.inputs}>
-          <Input label="ØA" title="Diâmetro Externo" value={valueA} setValue={setValueA} />
-          <Input label="ØB" title="Diâmetro Interno" value={valueB} setValue={setValueB} />
+          <Input label="ØA" title="Diâmetro" value={valueA} setValue={setValueA} />
+          <Input label="B°" title="Ângulo" value={valueB} setValue={setValueB} />
           <footer className={styles.buttons}>
             <Button type="button" text="Clear" onClick={handleClear} />
             <Button type="submit" text="Save DXF" onClick={handleCreateDXF} />

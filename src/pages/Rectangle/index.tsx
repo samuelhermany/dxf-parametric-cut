@@ -7,8 +7,12 @@ import styles from './Rectangle.module.css'
 import { Input } from '../../components/Input'
 import { Button } from '../../components/Button'
 import { Imagem } from '../../components/Imagem'
+import { useLocation } from 'react-router-dom'
 
 export function Rectangle() {
+  const location = useLocation()
+  const model = location.state?.model
+
   const [valueA, setValueA] = useState('')
   const [valueB, setValueB] = useState('')
 
@@ -20,7 +24,7 @@ export function Rectangle() {
   function handleCreateDXF(event: React.MouseEvent<HTMLButtonElement>): void {
     event.preventDefault()
     if (valueA !== '' && valueB !== '') {
-      DXFCreate({ fileType: 'rectangle', valueA, valueB })
+      DXFCreate({ fileType: model, valueA, valueB })
     }
   }
 
@@ -32,7 +36,7 @@ export function Rectangle() {
         </div>
         <form className={styles.inputs}>
           <Input label="A" title="Largura" value={valueA} setValue={setValueA} />
-          <Input label="B" title="Comprimento" value={valueB} setValue={setValueB} />
+          <Input label="B" title="Altura" value={valueB} setValue={setValueB} />
           <footer className={styles.buttons}>
             <Button type="button" text="Clear" onClick={handleClear} />
             <Button type="submit" text="Save DXF" onClick={handleCreateDXF} />

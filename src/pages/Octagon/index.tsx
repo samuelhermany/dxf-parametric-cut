@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { DXFCreate } from '../../components/dxfCreate'
 
-import img from '../../assets/img/washer.png'
+import img from '../../assets/img/octagon.png'
 
 import styles from '../Rectangle/Rectangle.module.css'
 import { Imagem } from '../../components/Imagem'
@@ -9,22 +9,20 @@ import { Input } from '../../components/Input'
 import { Button } from '../../components/Button'
 import { useLocation } from 'react-router-dom'
 
-export function Washer() {
+export function Octagon() {
   const location = useLocation()
   const model = location.state?.model
 
   const [valueA, setValueA] = useState('')
-  const [valueB, setValueB] = useState('')
 
   function handleClear() {
     setValueA('')
-    setValueB('')
   }
 
   function handleCreateDXF(event: React.MouseEvent<HTMLButtonElement>): void {
     event.preventDefault()
-    if (valueA !== '' && valueB !== '') {
-      DXFCreate({ fileType: model, valueA, valueB })
+    if (valueA !== '') {
+      DXFCreate({ fileType: model, valueA })
     }
   }
 
@@ -35,8 +33,8 @@ export function Washer() {
           <Imagem imgSrc={img} alt="dimensions" />
         </div>
         <form className={styles.inputs}>
-          <Input label="ØA" title="Diâmetro Externo" value={valueA} setValue={setValueA} />
-          <Input label="ØB" title="Diâmetro Interno" value={valueB} setValue={setValueB} />
+          {/* Passa o Value e o State para o componente Input */}
+          <Input label="A" title="Largura" value={valueA} setValue={setValueA} />
           <footer className={styles.buttons}>
             <Button type="button" text="Clear" onClick={handleClear} />
             <Button type="submit" text="Save DXF" onClick={handleCreateDXF} />
