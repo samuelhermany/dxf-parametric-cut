@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { DXFCreate } from '../../components/dxfCreate'
+import { dXFCreate } from '../../components/dxfCreate'
+import { handleClearValues, allValuesFilled } from '../../utils/formUtils'
 
 import img from '../../assets/img/trapezoid_4l.png'
 
@@ -17,23 +18,18 @@ export function Trapezoid_4l() {
   const [valueB, setValueB] = useState('')
   const [valueC, setValueC] = useState('')
 
-  function handleClear() {
-    setValueA('')
-    setValueB('')
-    setValueC('')
-  }
-
-  // Verifica se todos os valores foram preenchidos
-  function allValuesFilled(...values: string[]) {
-    return values.every(value => value.trim() !== '')
+  const handleClear = () => {
+    handleClearValues([setValueA, setValueB, setValueC])
   }
 
   function handleCreateDXF(event: React.MouseEvent<HTMLButtonElement>): void {
     event.preventDefault()
 
     if (allValuesFilled(valueA, valueB, valueC)) {
-      DXFCreate({ fileType: model, valueA, valueB, valueC })
+      dXFCreate({ model, valueA, valueB, valueC })
     }
+
+    handleClear()
   }
 
   return (

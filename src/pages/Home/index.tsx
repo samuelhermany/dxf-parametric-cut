@@ -36,13 +36,7 @@ const items = [
   { id: 8, model: 'arc2', title: 'arco2', isActive: true, img: imgArc2 },
 
   { id: 9, model: 'octagon', title: 'octagon', isActive: true, img: imgOctagon },
-  {
-    id: 10,
-    model: 'rectangle_round',
-    title: 'retangulo arredondado',
-    isActive: true,
-    img: imgRectangleRound,
-  },
+  { id: 10, model: 'rectangle_round', title: 'retangulo arredondado', isActive: true, img: imgRectangleRound },
   { id: 11, model: 'cross_round', title: 'cruz arredondada', isActive: true, img: imgCrossRound },
   { id: 12, model: 'ear', title: 'orelha', isActive: true, img: imgEar },
   { id: 13, model: 'ear_hole', title: 'orelha furada', isActive: true, img: imgEarHole },

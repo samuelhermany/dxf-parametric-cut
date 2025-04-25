@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { DXFCreate } from '../../components/dxfCreate'
+import { dXFCreate } from '../../components/dxfCreate'
+import { handleClearValues, allValuesFilled } from '../../utils/formUtils'
 
 import img from '../../assets/img/circle.png'
 
@@ -15,15 +16,18 @@ export function Circle() {
 
   const [valueA, setValueA] = useState('')
 
-  function handleClear() {
-    setValueA('')
+  const handleClear = () => {
+    handleClearValues([setValueA])
   }
 
   function handleCreateDXF(event: React.MouseEvent<HTMLButtonElement>): void {
     event.preventDefault()
-    if (valueA !== '') {
-      DXFCreate({ fileType: model, valueA })
+
+    if (allValuesFilled(valueA)) {
+      dXFCreate({ model, valueA })
     }
+
+    handleClear()
   }
 
   return (

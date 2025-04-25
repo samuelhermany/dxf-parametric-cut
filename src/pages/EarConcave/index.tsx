@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { DXFCreate } from '../../components/dxfCreate'
+import { dXFCreate } from '../../components/dxfCreate'
+import { handleClearValues, allValuesFilled } from '../../utils/formUtils'
 
 import img from '../../assets/img/earConcave.png'
 
@@ -16,22 +17,18 @@ export function EarConcave() {
   const [valueA, setValueA] = useState('')
   const [valueB, setValueB] = useState('')
 
-  function handleClear() {
-    setValueA('')
-    setValueB('')
-  }
-
-  // Verifica se todos os valores foram preenchidos
-  function allValuesFilled(...values: string[]) {
-    return values.every(value => value.trim() !== '')
+  const handleClear = () => {
+    handleClearValues([setValueA, setValueB])
   }
 
   function handleCreateDXF(event: React.MouseEvent<HTMLButtonElement>): void {
     event.preventDefault()
 
     if (allValuesFilled(valueA, valueB)) {
-      DXFCreate({ fileType: model, valueA, valueB })
+      dXFCreate({ model, valueA, valueB })
     }
+
+    handleClear()
   }
 
   return (

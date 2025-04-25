@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { DXFCreate } from '../../components/dxfCreate'
+import { dXFCreate } from '../../components/dxfCreate'
+import { handleClearValues, allValuesFilled } from '../../utils/formUtils'
 
 import img from '../../assets/img/ear.png'
 
@@ -14,24 +15,20 @@ export function Ear() {
   const model = location.state?.model
 
   const [valueA, setValueA] = useState('')
-  const [valueB, setValueB] = useState('')  
+  const [valueB, setValueB] = useState('')
 
-  function handleClear() {
-    setValueA('')
-    setValueB('')
-  }
-
-  // Verifica se todos os valores foram preenchidos
-  function allValuesFilled(...values: string[]) {
-    return values.every(value => value.trim() !== '')
+  const handleClear = () => {
+    handleClearValues([setValueA, setValueB])
   }
 
   function handleCreateDXF(event: React.MouseEvent<HTMLButtonElement>): void {
     event.preventDefault()
 
     if (allValuesFilled(valueA, valueB)) {
-      DXFCreate({ fileType: model, valueA, valueB })
+      dXFCreate({ model, valueA, valueB })
     }
+
+    handleClear()
   }
 
   return (
@@ -42,7 +39,7 @@ export function Ear() {
         </div>
         <form className={styles.inputs}>
           <Input label="A" title="Largura" value={valueA} setValue={setValueA} />
-          <Input label="B" title="Altura" value={valueB} setValue={setValueB} />          
+          <Input label="B" title="Altura" value={valueB} setValue={setValueB} />
           <footer className={styles.buttons}>
             <Button type="button" text="Clear" onClick={handleClear} />
             <Button type="submit" text="Save DXF" onClick={handleCreateDXF} />

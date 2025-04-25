@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import { DXFCreate } from '../../components/dxfCreate'
+import { dXFCreate } from '../../components/dxfCreate'
+import { handleClearValues, allValuesFilled } from '../../utils/formUtils'
 
 import img from '../../assets/img/elipse.png'
 
@@ -16,16 +17,18 @@ export function Ellipse() {
   const [valueA, setValueA] = useState('')
   const [valueB, setValueB] = useState('')
 
-  function handleClear() {
-    setValueA('')
-    setValueB('')
+  const handleClear = () => {
+    handleClearValues([setValueA, setValueB])
   }
 
   function handleCreateDXF(event: React.MouseEvent<HTMLButtonElement>): void {
     event.preventDefault()
-    if (valueA !== '' && valueB !== '') {
-      DXFCreate({ fileType: model, valueA, valueB })
+
+    if (allValuesFilled(valueA, valueB)) {
+      dXFCreate({ model, valueA, valueB })
     }
+
+    handleClear()
   }
 
   return (

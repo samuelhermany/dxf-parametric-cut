@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import { DXFCreate } from '../../components/dxfCreate'
+import { dXFCreate } from '../../components/dxfCreate'
+import { handleClearValues, allValuesFilled } from '../../utils/formUtils'
 
 import img from '../../assets/img/flange.png'
 
@@ -18,24 +19,18 @@ export function Flange() {
   const [valueC, setValueC] = useState('')
   const [valueD, setValueD] = useState('')
 
-  function handleClear() {
-    setValueA('')
-    setValueB('')
-    setValueC('')
-    setValueD('')
-  }
-
-  // Verifica se todos os valores foram preenchidos
-  function allValuesFilled(...values: string[]) {
-    return values.every(value => value.trim() !== '')
+  const handleClear = () => {
+    handleClearValues([setValueA, setValueB, setValueC, setValueD])
   }
 
   function handleCreateDXF(event: React.MouseEvent<HTMLButtonElement>): void {
     event.preventDefault()
 
     if (allValuesFilled(valueA, valueB, valueC, valueD)) {
-      DXFCreate({ fileType: model, valueA, valueB, valueC, valueD })
+      dXFCreate({ model, valueA, valueB, valueC, valueD })
     }
+
+    handleClear()
   }
 
   return (
