@@ -32,8 +32,8 @@ export function dXFCreate({ model, ...props }: Props): void {
     case 'trapezoid_5l':
       createTrapezoid_5l(draw, valueA, valueB, valueC, valueD)
       break
-    case 'washerSquare':
-      createWasherSquare(draw, valueA, valueB)
+    case 'ellipse':
+      createEllipse(draw, valueA, valueB)
       break
   }
 
@@ -61,10 +61,10 @@ const createRectangle = (draw: Drawing, valueA: string, valueB: string) => {
 /**
  * Cria um círculo
  */
-const createCircle = (draw: Drawing, valueA: string) => {
-  const raio = parseFloat(valueA.replace(',', '.'))
+const createCircle = (draw: Drawing, valueA: string, x: number = 0, y: number = 0) => {
+  const raio = parseFloat(valueA.replace(',', '.')) / 2
   // drawCircle(x, y, radius): Drawing;
-  draw.drawCircle(0, 0, raio)
+  draw.drawCircle(x, y, raio)
 }
 
 /**
@@ -96,14 +96,48 @@ function createTrapezoid_4l(draw: Drawing, valueA: string, valueB: string, value
  * Cria um flange com 4 lados iguais
  */
 function createFlange(draw: Drawing, valueA: string, valueB: string, valueC: string, valueD: string) {
-  throw new Error('Function not implemented.')
-}
+  // A=Diâmetro Externo | B=Diâmetro Médio | C=Diâmetro Interno | D=Diâmetro Furação
+  createCircle(draw, valueA)
+  createCircle(draw, valueC)
 
-/**
- * Cria um trapézio de 5 lados
+  const diametroMedio = parseFloat(valueB.replace(',', '.'))
+  // Furação = Superior | Direita | Inferior | Esquerda
+  createCircle(draw, valueD, 0, diametroMedio / 2)
+  createCircle(draw, valueD, diametroMedio / 2, 0)
+  createCircle(draw, valueD, 0, -diametroMedio / 2)
+  createCircle(draw, valueD, -diametroMedio / 2, 0)
+}
+/** * Cria um trapézio de 5 lados
  */
 function createTrapezoid_5l(draw: Drawing, valueA: string, valueB: string, valueC: string, valueD: string) {
-  throw new Error('Function not implemented.')
+  const larguraBase = parseFloat(valueA.replace(',', '.'))
+  const alturaTotal = parseFloat(valueB.replace(',', '.'))
+  const larguraTopo = parseFloat(valueC.replace(',', '.'))
+  const alturaParcial = parseFloat(valueD.replace(',', '.'))
+  //   E---D
+  //  /     \
+  // F       C
+  // |       |
+  // A-------B
+  draw.drawLine(-larguraBase / 2, 0, larguraBase / 2, 0) //A - B = Largura Base
+  draw.drawLine(larguraBase / 2, 0, larguraBase / 2, alturaParcial) // B - C = Aresta Altura Parcial
+  draw.drawLine(larguraBase / 2, alturaParcial, larguraTopo / 2, alturaTotal) // C - D = Aresta Altura Total
+  draw.drawLine(larguraTopo / 2, alturaTotal, -larguraTopo / 2, alturaTotal) // D - E = Largura Superior
+  draw.drawLine(-larguraTopo / 2, alturaTotal, -larguraBase / 2, alturaParcial) // C - D = Aresta Altura Total
+  draw.drawLine(-larguraBase / 2, alturaParcial, -larguraBase / 2, 0) // D - A = Aresta Altura Total
+}
+/**
+ * Ciar uma Elipse
+ */
+function createEllipse(draw: Drawing, valueA: string, valueB: string) {
+  const centerX = 50
+  const centerY = 50
+  const radius = 25
+
+  draw.drawArc(centerX, centerY, radius, 0, 90)
+  draw.drawArc(centerX, centerY, radius, 90, 180)
+  draw.drawArc(centerX, centerY, radius, 180, 270)
+  draw.drawArc(centerX, centerY, radius, 270, 360)
 }
 
 /**
