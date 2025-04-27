@@ -1,4 +1,6 @@
 import Drawing from 'dxf-writer'
+import { DxfWriter, point3d } from '@tarikjabiri/dxf'
+// import { Drawing as DrawingDXF } from 'dxf'
 
 interface Props {
   model: string // Tipo de arquivo
@@ -8,40 +10,68 @@ interface Props {
 export function dXFCreate({ model, ...props }: Props): void {
   const { valueA, valueB, valueC, valueD } = props
 
-  const draw = new Drawing()
-  draw.setUnits('Millimeters')
   let fileType = 'arquivo_modificado'
   fileType = model
 
+  // Serve para todos os aquivos, exceto elipse
+  let draw: Drawing | null = null
+  let dxfWriter: DxfWriter | null = null // Serve para elipse
+
+  if (fileType !== 'ellipse') {
+    draw = new Drawing()
+    draw.setUnits('Millimeters')
+  } else {
+    dxfWriter = new DxfWriter()
+    dxfWriter.setUnits(4) // 4 = Millimeters
+  }
+
   switch (fileType) {
     case 'rectangle':
-      createRectangle(draw, valueA, valueB)
+      if (draw) createRectangle(draw, valueA, valueB)
       break
     case 'circle':
-      createCircle(draw, valueA)
+      if (draw) if (draw) createCircle(draw, valueA)
       break
     case 'washer':
-      createWasher(draw, valueA, valueB)
+      if (draw) createWasher(draw, valueA, valueB)
       break
     case 'trapezoid_4l':
-      createTrapezoid_4l(draw, valueA, valueB, valueC)
+      if (draw) createTrapezoid_4l(draw, valueA, valueB, valueC)
       break
     case 'flange':
-      createFlange(draw, valueA, valueB, valueC, valueD)
+      if (draw) createFlange(draw, valueA, valueB, valueC, valueD)
       break
     case 'trapezoid_5l':
-      createTrapezoid_5l(draw, valueA, valueB, valueC, valueD)
+      if (draw) createTrapezoid_5l(draw, valueA, valueB, valueC, valueD)
       break
     case 'ellipse':
-      createEllipse(draw, valueA, valueB)
+      if (dxfWriter) createEllipse(dxfWriter, valueA, valueB)
+      // downloadDxf()
       break
   }
 
-  const blob = new Blob([draw.toDxfString()], { type: 'application/dxf' })
+  // Verifica se o tipo for nulo será paasado com undefinded
+  salvarArquivo(fileType, draw ?? undefined, dxfWriter ?? undefined)
+}
+
+/**
+ * Salva o arquivo, 2 primeiros parametros (sempre só um é passado)
+ */
+function salvarArquivo(fileType: string, draw?: Drawing, dxfWriter?: DxfWriter) {
+  // Para todos os tipos "toDxfString()" | para elipse "stringify()"
+  const content = draw ? draw!.toDxfString() : dxfWriter!.stringify()
+
+  const blob = new Blob([content], { type: 'application/dxf' })
+  const url = URL.createObjectURL(blob)
   const link = document.createElement('a')
-  link.href = URL.createObjectURL(blob)
+  link.href = url
   link.download = fileType + '.dxf'
   link.click()
+
+  // Limpa a memória
+  setTimeout(() => {
+    URL.revokeObjectURL(url)
+  }, 100) // espera 100ms antes de revogar
 }
 
 /**
@@ -107,7 +137,9 @@ function createFlange(draw: Drawing, valueA: string, valueB: string, valueC: str
   createCircle(draw, valueD, 0, -diametroMedio / 2)
   createCircle(draw, valueD, -diametroMedio / 2, 0)
 }
-/** * Cria um trapézio de 5 lados
+
+/**
+ * Cria um trapézio de 5 lados
  */
 function createTrapezoid_5l(draw: Drawing, valueA: string, valueB: string, valueC: string, valueD: string) {
   const larguraBase = parseFloat(valueA.replace(',', '.'))
@@ -126,24 +158,21 @@ function createTrapezoid_5l(draw: Drawing, valueA: string, valueB: string, value
   draw.drawLine(-larguraTopo / 2, alturaTotal, -larguraBase / 2, alturaParcial) // C - D = Aresta Altura Total
   draw.drawLine(-larguraBase / 2, alturaParcial, -larguraBase / 2, 0) // D - A = Aresta Altura Total
 }
+
 /**
  * Ciar uma Elipse
  */
-function createEllipse(draw: Drawing, valueA: string, valueB: string) {
-  const centerX = 50
-  const centerY = 50
-  const radius = 25
+function createEllipse(dxfWriter: DxfWriter, valueA: string, valueB: string) {
+  // Calcula centro e semi-eixos em X | Y
+  const halfWidth = parseFloat(valueA.replace(',', '.')) / 2
+  const halfHeight = parseFloat(valueB.replace(',', '.')) / 2
 
-  draw.drawArc(centerX, centerY, radius, 0, 90)
-  draw.drawArc(centerX, centerY, radius, 90, 180)
-  draw.drawArc(centerX, centerY, radius, 180, 270)
-  draw.drawArc(centerX, centerY, radius, 270, 360)
-}
-
-/**
- * Cria uma arruela quadrada
- */
-const createWasherSquare = (draw: Drawing, valueA: string, valueB: string) => {
-  createRectangle(draw, valueA, valueA)
-  createCircle(draw, valueB)
+  // addEllipse(center, majorAxisEnd, axisRatio, startParam, endParam)
+  dxfWriter.addEllipse(
+    point3d(halfWidth, halfHeight, 0),
+    point3d(halfWidth, 0, 0), // Vetor do fim do eixo maior (relativo ao centro)
+    halfHeight / halfWidth, // razão (axisRatio) = ry / rx
+    0, // startParam (0 rad)
+    2 * Math.PI // endParam (2π rad = volta completa)
+  )
 }

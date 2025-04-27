@@ -13,6 +13,8 @@
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
+    "@tarikjabiri/dxf": "^2.8.9",
+    "dxf": "^5.2.0",
     "dxf-parser": "^1.1.2",
     "dxf-writer": "^1.18.4",
     "phosphor-react": "^1.4.1",
