@@ -1,6 +1,5 @@
 import Drawing from 'dxf-writer'
 import { DxfWriter, point3d } from '@tarikjabiri/dxf'
-// import { Drawing as DrawingDXF } from 'dxf'
 
 interface Props {
   model: string // Tipo de arquivo
@@ -9,6 +8,11 @@ interface Props {
 
 export function dXFCreate({ model, ...props }: Props): void {
   const { valueA, valueB, valueC, valueD } = props
+  // Cria as versões em número apenas se existirem
+  const floatA = valueA ? parseFloat(valueA.replace(',', '.')) : undefined
+  const floatB = valueB ? parseFloat(valueB.replace(',', '.')) : undefined
+  const floatC = valueC ? parseFloat(valueC.replace(',', '.')) : undefined
+  const floatD = valueD ? parseFloat(valueD.replace(',', '.')) : undefined
 
   let fileType = 'arquivo_modificado'
   fileType = model
@@ -27,26 +31,39 @@ export function dXFCreate({ model, ...props }: Props): void {
 
   switch (fileType) {
     case 'rectangle':
-      if (draw) createRectangle(draw, valueA, valueB)
+      if (draw && floatA !== undefined && floatB !== undefined) {
+        createRectangle(draw, floatA, floatB)
+      }
       break
     case 'circle':
-      if (draw) if (draw) createCircle(draw, valueA)
+      if (draw && floatA !== undefined) {
+        createCircle(draw, floatA)
+      }
       break
     case 'washer':
-      if (draw) createWasher(draw, valueA, valueB)
+      if (draw && floatA !== undefined && floatB !== undefined) {
+        createWasher(draw, floatA, floatB)
+      }
       break
     case 'trapezoid_4l':
-      if (draw) createTrapezoid_4l(draw, valueA, valueB, valueC)
+      if (draw && floatA !== undefined && floatB !== undefined && floatC !== undefined) {
+        createTrapezoid_4l(draw, floatA, floatB, floatC)
+      }
       break
     case 'flange':
-      if (draw) createFlange(draw, valueA, valueB, valueC, valueD)
+      if (draw && floatA !== undefined && floatB !== undefined && floatC !== undefined && floatD !== undefined) {
+        createFlange(draw, floatA, floatB, floatC, floatD)
+      }
       break
     case 'trapezoid_5l':
-      if (draw) createTrapezoid_5l(draw, valueA, valueB, valueC, valueD)
+      if (draw && floatA !== undefined && floatB !== undefined && floatC !== undefined && floatD !== undefined) {
+        createTrapezoid_5l(draw, floatA, floatB, floatC, floatD)
+      }
       break
     case 'ellipse':
-      if (dxfWriter) createEllipse(dxfWriter, valueA, valueB)
-      // downloadDxf()
+      if (dxfWriter && floatA !== undefined && floatB !== undefined) {
+        createEllipse(dxfWriter, floatA, floatB)
+      }
       break
   }
 
@@ -77,30 +94,26 @@ function salvarArquivo(fileType: string, draw?: Drawing, dxfWriter?: DxfWriter) 
 /**
  * Cria um retangulo
  */
-const createRectangle = (draw: Drawing, valueA: string, valueB: string) => {
-  const altura = parseFloat(valueB.replace(',', '.'))
-  const largura = parseFloat(valueA.replace(',', '.'))
-
+const createRectangle = (draw: Drawing, valueA: number, valueB: number) => {
   // drawLine(x1, y1, x2, y2): Drawing;
-  draw.drawLine(0, 0, largura, 0)
-  draw.drawLine(largura, 0, largura, altura)
-  draw.drawLine(largura, altura, 0, altura)
-  draw.drawLine(0, altura, 0, 0)
+  draw.drawLine(0, 0, valueA, 0)
+  draw.drawLine(valueA, 0, valueA, valueB)
+  draw.drawLine(valueA, valueB, 0, valueB)
+  draw.drawLine(0, valueB, 0, 0)
 }
 
 /**
  * Cria um círculo
  */
-const createCircle = (draw: Drawing, valueA: string, x: number = 0, y: number = 0) => {
-  const raio = parseFloat(valueA.replace(',', '.')) / 2
+const createCircle = (draw: Drawing, valueA: number, x: number = 0, y: number = 0) => {
   // drawCircle(x, y, radius): Drawing;
-  draw.drawCircle(x, y, raio)
+  draw.drawCircle(x, y, valueA / 2)
 }
 
 /**
  * Cria uma arruela
  */
-const createWasher = (draw: Drawing, valueA: string, valueB: string) => {
+const createWasher = (draw: Drawing, valueA: number, valueB: number) => {
   // raio Externo valuA, raio Interno valueB
   createCircle(draw, valueA)
   createCircle(draw, valueB)
@@ -109,7 +122,7 @@ const createWasher = (draw: Drawing, valueA: string, valueB: string) => {
 /**
  * Cria um trapézio de 4 lados
  */
-function createTrapezoid_4l(draw: Drawing, valueA: string, valueB: string, valueC: string) {
+function createTrapezoid_4l(draw: Drawing, valueA: number, valueB: number, valueC: number) {
   const larguraBase = parseFloat(valueA.replace(',', '.'))
   const altura = parseFloat(valueB.replace(',', '.'))
   const larguraTopo = parseFloat(valueC.replace(',', '.'))
@@ -125,7 +138,7 @@ function createTrapezoid_4l(draw: Drawing, valueA: string, valueB: string, value
 /**
  * Cria um flange com 4 lados iguais
  */
-function createFlange(draw: Drawing, valueA: string, valueB: string, valueC: string, valueD: string) {
+function createFlange(draw: Drawing, valueA: number, valueB: number, valueC: number, valueD: number) {
   // A=Diâmetro Externo | B=Diâmetro Médio | C=Diâmetro Interno | D=Diâmetro Furação
   createCircle(draw, valueA)
   createCircle(draw, valueC)
@@ -141,7 +154,7 @@ function createFlange(draw: Drawing, valueA: string, valueB: string, valueC: str
 /**
  * Cria um trapézio de 5 lados
  */
-function createTrapezoid_5l(draw: Drawing, valueA: string, valueB: string, valueC: string, valueD: string) {
+function createTrapezoid_5l(draw: Drawing, valueA: number, valueB: number, valueC: number, valueD: number) {
   const larguraBase = parseFloat(valueA.replace(',', '.'))
   const alturaTotal = parseFloat(valueB.replace(',', '.'))
   const larguraTopo = parseFloat(valueC.replace(',', '.'))
@@ -162,7 +175,7 @@ function createTrapezoid_5l(draw: Drawing, valueA: string, valueB: string, value
 /**
  * Ciar uma Elipse
  */
-function createEllipse(dxfWriter: DxfWriter, valueA: string, valueB: string) {
+function createEllipse(dxfWriter: DxfWriter, valueA: number, valueB: number) {
   // Calcula centro e semi-eixos em X | Y
   const halfWidth = parseFloat(valueA.replace(',', '.')) / 2
   const halfHeight = parseFloat(valueB.replace(',', '.')) / 2
