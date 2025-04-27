@@ -65,6 +65,11 @@ export function dXFCreate({ model, ...props }: Props): void {
         createEllipse(dxfWriter, floatA, floatB)
       }
       break
+    case 'arc1':
+      if (draw && floatA !== undefined && floatB !== undefined) {
+        createArc1(draw, floatA, floatB)
+      }
+      break
   }
 
   // Verifica se o tipo for nulo será paasado com undefinded
@@ -122,10 +127,10 @@ const createWasher = (draw: Drawing, valueA: number, valueB: number) => {
 /**
  * Cria um trapézio de 4 lados
  */
-function createTrapezoid_4l(draw: Drawing, valueA: number, valueB: number, valueC: number) {
-  const larguraBase = parseFloat(valueA.replace(',', '.'))
-  const altura = parseFloat(valueB.replace(',', '.'))
-  const larguraTopo = parseFloat(valueC.replace(',', '.'))
+const createTrapezoid_4l = (draw: Drawing, valueA: number, valueB: number, valueC: number) => {
+  const larguraBase = valueA
+  const altura = valueB
+  const larguraTopo = valueC
   //   D---C
   //  /     \
   // A-------B
@@ -138,47 +143,42 @@ function createTrapezoid_4l(draw: Drawing, valueA: number, valueB: number, value
 /**
  * Cria um flange com 4 lados iguais
  */
-function createFlange(draw: Drawing, valueA: number, valueB: number, valueC: number, valueD: number) {
+const createFlange = (draw: Drawing, valueA: number, valueB: number, valueC: number, valueD: number) => {
   // A=Diâmetro Externo | B=Diâmetro Médio | C=Diâmetro Interno | D=Diâmetro Furação
   createCircle(draw, valueA)
   createCircle(draw, valueC)
-
-  const diametroMedio = parseFloat(valueB.replace(',', '.'))
   // Furação = Superior | Direita | Inferior | Esquerda
-  createCircle(draw, valueD, 0, diametroMedio / 2)
-  createCircle(draw, valueD, diametroMedio / 2, 0)
-  createCircle(draw, valueD, 0, -diametroMedio / 2)
-  createCircle(draw, valueD, -diametroMedio / 2, 0)
+  createCircle(draw, valueD, 0, valueB / 2)
+  createCircle(draw, valueD, valueB / 2, 0)
+  createCircle(draw, valueD, 0, -valueB / 2)
+  createCircle(draw, valueD, -valueB / 2, 0)
 }
 
 /**
  * Cria um trapézio de 5 lados
  */
-function createTrapezoid_5l(draw: Drawing, valueA: number, valueB: number, valueC: number, valueD: number) {
-  const larguraBase = parseFloat(valueA.replace(',', '.'))
-  const alturaTotal = parseFloat(valueB.replace(',', '.'))
-  const larguraTopo = parseFloat(valueC.replace(',', '.'))
-  const alturaParcial = parseFloat(valueD.replace(',', '.'))
+const createTrapezoid_5l = (draw: Drawing, valueA: number, valueB: number, valueC: number, valueD: number) => {
   //   E---D
   //  /     \
   // F       C
   // |       |
   // A-------B
-  draw.drawLine(-larguraBase / 2, 0, larguraBase / 2, 0) //A - B = Largura Base
-  draw.drawLine(larguraBase / 2, 0, larguraBase / 2, alturaParcial) // B - C = Aresta Altura Parcial
-  draw.drawLine(larguraBase / 2, alturaParcial, larguraTopo / 2, alturaTotal) // C - D = Aresta Altura Total
-  draw.drawLine(larguraTopo / 2, alturaTotal, -larguraTopo / 2, alturaTotal) // D - E = Largura Superior
-  draw.drawLine(-larguraTopo / 2, alturaTotal, -larguraBase / 2, alturaParcial) // C - D = Aresta Altura Total
-  draw.drawLine(-larguraBase / 2, alturaParcial, -larguraBase / 2, 0) // D - A = Aresta Altura Total
+  // A=Largura Base | B=Altura Total | C=Largura Topo | D=Altura Parcial
+  draw.drawLine(-valueA / 2, 0, valueA / 2, 0) //A - B = Largura Base
+  draw.drawLine(valueA / 2, 0, valueA / 2, valueD) // B - C = Aresta Altura Parcial
+  draw.drawLine(valueA / 2, valueD, valueC / 2, valueB) // C - D = Aresta Altura Total
+  draw.drawLine(valueC / 2, valueB, -valueC / 2, valueB) // D - E = Largura Superior
+  draw.drawLine(-valueC / 2, valueB, -valueA / 2, valueD) // C - D = Aresta Altura Total
+  draw.drawLine(-valueA / 2, valueD, -valueA / 2, 0) // D - A = Aresta Altura Total
 }
 
 /**
  * Ciar uma Elipse
  */
-function createEllipse(dxfWriter: DxfWriter, valueA: number, valueB: number) {
+const createEllipse = (dxfWriter: DxfWriter, valueA: number, valueB: number) => {
   // Calcula centro e semi-eixos em X | Y
-  const halfWidth = parseFloat(valueA.replace(',', '.')) / 2
-  const halfHeight = parseFloat(valueB.replace(',', '.')) / 2
+  const halfWidth = valueA / 2
+  const halfHeight = valueB / 2
 
   // addEllipse(center, majorAxisEnd, axisRatio, startParam, endParam)
   dxfWriter.addEllipse(
@@ -188,4 +188,30 @@ function createEllipse(dxfWriter: DxfWriter, valueA: number, valueB: number) {
     0, // startParam (0 rad)
     2 * Math.PI // endParam (2π rad = volta completa)
   )
+}
+
+/**
+ * Cria um semi-círculo
+ */
+const createArc1 = (draw: Drawing, valueA: number, valueB: number) => {
+  const center = 90
+  const startAngle = center - valueB / 2
+  const endAngle = center + valueB / 2
+  // Angulo 0 é na direita indo no sentido anti-horário
+  // valueA = diametro | valueB = angulo
+  // drawArc( x, y, raio, startAngle, endAngle)
+  draw.drawArc(0, 0, valueA / 2, startAngle, endAngle)
+  drawLineAngle(draw, startAngle, valueA)
+  drawLineAngle(draw, endAngle, valueA)
+}
+
+/**
+ * Função para os arcos. Cria a linha de x=0 e y=0 até os pontos extremos do arco informado
+ */
+const drawLineAngle = (draw: Drawing, pointAngle: number, value: number) => {
+  const pointAngleRadians = pointAngle * (Math.PI / 180)
+  const endX = (value / 2) * Math.cos(pointAngleRadians)
+  const endY = (value / 2) * Math.sin(pointAngleRadians)
+  // Desenha a linha de (0, 0) até (endX, endY)
+  draw.drawLine(0, 0, endX, endY)
 }
