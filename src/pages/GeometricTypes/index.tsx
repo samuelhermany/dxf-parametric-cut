@@ -100,13 +100,13 @@ export function GeometricTypes() {
       </header>
       <div className={styles.models}>
         {items.map(item => (
-          <NavLink key={item.id} to={`/${item.model}`} state={{ model: item.model }}>
+          // <NavLink key={item.id} to={`/${item.model}`} state={{ model: item.model }}>
             <div className={styles.modelType}>
               {/* Se o item estiver ativo, mostra o icone lock */}
               {isActivate(item.model) && <LockSimple />}
               <img src={item.img} alt={item.title} />
             </div>
-          </NavLink>
+          // </NavLink>
         ))}
       </div>
     </main>

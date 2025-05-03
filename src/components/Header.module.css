@@ -7,7 +7,7 @@
 }
 
 .dimensions {
-  background-color: var(--gray-300);
+  background-color: var(--gray-600);
   border-radius: 24px;
   margin: 1rem 1em 0;
   display: flex;

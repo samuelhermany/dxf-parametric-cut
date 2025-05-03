@@ -20,7 +20,7 @@
   gap: 1rem;
 }
 .dimensions {
-  background-color: var(--gray-300);
+  background-color: var(--gray-600);
   border-radius: 24px;
   margin-top: 1rem;
   display: flex;
