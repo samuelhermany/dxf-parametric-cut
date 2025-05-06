@@ -27,7 +27,6 @@ const items = [
   { id: 0, model: 'rectangle', title: 'retangulo', isActive: false, img: imgSquare },
   { id: 1, model: 'circle', title: 'circulo', isActive: false, img: imgCircle },
   { id: 2, model: 'washer', title: 'arruela', isActive: false, img: imgWasher },
-
   {
     id: 3,
     model: 'trapezoid_4l',
@@ -100,13 +99,13 @@ export function GeometricTypes() {
       </header>
       <div className={styles.models}>
         {items.map(item => (
-          // <NavLink key={item.id} to={`/${item.model}`} state={{ model: item.model }}>
+          <NavLink key={item.id} to={`/${item.model}`} state={{ model: item.model }}>
             <div className={styles.modelType}>
               {/* Se o item estiver ativo, mostra o icone lock */}
               {isActivate(item.model) && <LockSimple />}
               <img src={item.img} alt={item.title} />
             </div>
-          // </NavLink>
+          </NavLink>
         ))}
       </div>
     </main>

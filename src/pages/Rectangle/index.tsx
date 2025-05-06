@@ -8,7 +8,8 @@ import styles from './Rectangle.module.css'
 import { Input } from '../../components/Input'
 import { Button } from '../../components/Button'
 import { Imagem } from '../../components/Imagem'
-import { useLocation } from 'react-router-dom'
+import { useLocation, NavLink } from 'react-router-dom'
+import { CaretCircleLeft } from 'phosphor-react'
 
 export function Rectangle() {
   const location = useLocation()
@@ -33,6 +34,11 @@ export function Rectangle() {
 
   return (
     <div className={styles.container}>
+      <div className={styles.back}>
+        <NavLink to="/" title="Página Home">
+          <CaretCircleLeft weight="fill" />
+        </NavLink>
+      </div>
       <main>
         <div className={styles.dimensions}>
           <Imagem imgSrc={img} alt="dimensions" />

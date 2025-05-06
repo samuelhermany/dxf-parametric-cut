@@ -27,7 +27,7 @@
     margin: 2rem;
   }
 
-  .container svg {
+  .back svg {
     font-size: 4rem;
     margin: 1rem 0 0 2rem;
   }
@@ -35,7 +35,7 @@
 
 /* TABLET em modo paisangen */
 @media (min-width: 768px) and (orientation: landscape) {
-  .container svg {
+  .back svg {
     margin: 2rem 0 0 2rem;
   }
 }

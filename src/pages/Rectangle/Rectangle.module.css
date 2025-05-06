@@ -3,8 +3,12 @@
   --padding-mobile: 1rem;
   --padding-tablet: 2rem;
 }
-
+.container {
+  background-color: var(--black);
+  height: 100vh;
+}
 .container > main {
+  background-color: var(--black);
   flex: 1;
   margin: 1rem;
   min-width: var(--largura-minima);
@@ -12,12 +16,19 @@
   padding: var(--padding-mobile);
   padding-bottom: 1rem;
   overflow: hidden;
-  /* background-color: green; */
+  max-width: 1024px;
+  display: flex;
+  flex-direction: column;
 }
 .inputs {
   /* Espaçamento para os botões no rodapé da página */
   margin-bottom: 5.5rem;
+  background-color: var(--black);
   gap: 1rem;
+}
+.dimensions,
+.dimensions > img {
+  background-color: var(--gray-600);
 }
 .dimensions {
   background-color: var(--gray-600);
@@ -40,8 +51,21 @@
   align-items: center;
   gap: 1rem;
   background-color: var(--black);
+  max-width: 1024px;
+  margin: auto;
 }
-
+.back,
+.back > a,
+.inputs > div {
+  background-color: var(--black);
+}
+.back svg {
+  background-color: transparent;
+  fill: var(--green-300);
+  font-size: 3rem;
+  margin: 0.7rem 0 0 0.7rem;
+  cursor: pointer;
+}
 /* estilo para tablet em modo retrato */
 @media (min-width: 768px) and (orientation: portrait) {
   .container > main {
@@ -51,6 +75,11 @@
   .buttons {
     /* background-color: rgb(255, 145, 145); */
     padding: var(--padding-tablet);
+  }
+
+  .back svg {
+    font-size: 4rem;
+    margin: 1rem 0 0 2rem;
   }
 }
 
@@ -65,6 +94,9 @@
     padding-left: var(--padding-tablet);
     padding-right: var(--padding-tablet);
     padding: var(--padding-tablet);
-    /* padding: 0 2rem 2rem; */
+  }
+  .back svg {
+    font-size: 4rem;
+    margin: 2rem 0 0 2rem;
   }
 }

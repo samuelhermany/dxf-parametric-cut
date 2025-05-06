@@ -16,6 +16,7 @@
 
 .divInput > p {
   color: var(--white);
+  background-color: transparent;
   font-size: 1rem;
   margin: 0.1rem 0;
 }
