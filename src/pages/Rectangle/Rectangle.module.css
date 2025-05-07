@@ -3,6 +3,7 @@
   --padding-mobile: 1rem;
   --padding-tablet: 2rem;
 }
+
 .container {
   background-color: var(--black);
   height: 100vh;

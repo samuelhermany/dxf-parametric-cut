@@ -1,11 +1,8 @@
-* {
-  background-color: var(--white);
-}
 .container {
   color: var(--white);
-  height: 100%;
-  width: 100%;
-  position: fixed;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 .logo {
@@ -16,22 +13,22 @@
   height: 2rem;
 }
 .background {
-  position: absolute;
-  top: 0;
-  right: 0;
   width: 49%;
   height: 100%;
-  object-fit: cover;
+  object-fit: fill;
   border-radius: 30px 0 0px 30px;
 }
 
 .login {
   background-color: var(--white);
-  margin: 197px 0 0 130px;
+  margin: 197px 0 0 6rem;
   padding: 3rem;
-  width: 37.75rem;
-  height: 42.8rem;
+  max-width: 37.75rem;
+  min-width: 300px;
+  width: 100%;
+  height: 100%;
   box-shadow: 0 10px 60px 0 rgba(0, 0, 0, 0.08);
+  border-radius: 20px;
 }
 
 .login > h1 {
@@ -101,7 +98,7 @@
   height: 3.5rem;
   width: 100%;
 }
-.clearButton {
+.buttonClear {
   position: absolute;
   right: 1rem;
   bottom: 0.625rem;
@@ -111,7 +108,7 @@
   font-size: 24px;
 }
 
-.visibilityPassword {
+.buttonVisibilityPassword {
   position: absolute;
   right: 1rem;
   bottom: 0.625rem;
@@ -121,6 +118,10 @@
   font-size: 24px;
 }
 
+.buttonVisibilityPassword > svg,
+.buttonClear > svg {
+  background-color: transparent;
+}
 .remember {
   display: flex;
   justify-content: space-between;
@@ -139,7 +140,7 @@
   text-decoration: underline var(--blue-500);
 }
 
-form > button {
+.formLogin > button {
   background-color: var(--blue-500);
   color: var(--white);
   height: 56px;

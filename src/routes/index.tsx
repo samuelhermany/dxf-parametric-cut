@@ -1,5 +1,4 @@
 import { Routes, Route } from 'react-router-dom'
-import { DefaultLayout } from '../layouts'
 
 import { GeometricTypes } from '../pages/GeometricTypes'
 import { Rectangle } from '../pages/Rectangle'

@@ -36,7 +36,7 @@ export function Trapezoid_5l() {
 
   return (
     <div className={styles.container}>
-            <div className={styles.back}>
+      <div className={styles.back}>
         <NavLink to="/" title="Página Home">
           <CaretCircleLeft weight="fill" />
         </NavLink>
