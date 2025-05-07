@@ -17,7 +17,7 @@ export function Register() {
   const [password, setPassword] = useState('')
   const [message, setMessage] = useState('')
 
-  const handleRegister = async event => {
+  const handleRegister = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     setMessage('')
 
@@ -77,7 +77,7 @@ export function Register() {
             <button type="button" className={styles.buttonVisibilityPassword} onClick={() => setVisible(!visible)}>
               {visible ? <EyeSlash /> : <Eye />}
             </button>
-          </div>         
+          </div>
           <button type="submit">Registrar</button>
         </form>
         <div className={styles.register}>

@@ -136,6 +136,7 @@
 
 .remember > button {
   color: var(--gray-900);
+  background-color: transparent;
   border: none;
   text-decoration: underline var(--blue-500);
 }
