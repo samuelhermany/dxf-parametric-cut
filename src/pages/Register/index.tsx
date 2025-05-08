@@ -5,7 +5,6 @@ import styles from './index.module.css'
 import { NavLink, useNavigate } from 'react-router-dom'
 
 import logo from '../../assets/img/AKNSolutions_logo.png'
-import background from '../../assets/img/background_pc.png'
 
 import { Eye, EyeSlash, XCircle } from 'phosphor-react'
 

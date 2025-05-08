@@ -4,7 +4,6 @@ import supabase from '../../helper/supabaseCliente'
 import styles from './index.module.css'
 import { NavLink, useNavigate } from 'react-router-dom'
 import logo from '../../assets/img/AKNSolutions_logo.png'
-import background from '../../assets/img/background_pc.png'
 
 import { Eye, EyeSlash, XCircle } from 'phosphor-react'
 
@@ -91,12 +90,12 @@ export function Login() {
 
           <button type="submit">Logar</button>
           <div className={styles.register}>
-          <p>Você não tem uma conta?</p>
-          <p>
-            <NavLink to="/register">Criar</NavLink>
-          </p>
-        </div>
-        </form>        
+            <p>Você não tem uma conta?</p>
+            <p>
+              <NavLink to="/register">Criar</NavLink>
+            </p>
+          </div>
+        </form>
       </div>
 
       <div className={styles.background}></div>
