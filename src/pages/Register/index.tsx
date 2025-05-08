@@ -79,18 +79,16 @@ export function Register() {
             </button>
           </div>
           <button type="submit">Registrar</button>
+          <div className={styles.register}>
+            <p>Você já tem uma conta?</p>
+            <p>
+              <NavLink to="/login">Login</NavLink>
+            </p>
+          </div>
         </form>
-        <div className={styles.register}>
-          <p>Você já tem uma conta?</p>
-          <p>
-            <NavLink to="/login">Login</NavLink>
-          </p>
-        </div>
       </div>
 
-      <div className={styles.background}>
-        <img src={background} alt="background" />
-      </div>
+      <div className={styles.background}></div>
     </div>
   )
 }

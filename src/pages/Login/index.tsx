@@ -10,7 +10,7 @@ import { Eye, EyeSlash, XCircle } from 'phosphor-react'
 
 export function Login() {
   const navigate = useNavigate()
-  
+
   const [visible, setVisible] = useState(false)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -53,8 +53,9 @@ export function Login() {
   }
 
   return (
+    // <div className={styles.teste}></div>
     <div className={styles.container}>
-      <img className={styles.logo} src={logo} alt="logo" />      
+      <img className={styles.logo} src={logo} alt="logo" />
       <div className={styles.login}>
         <h1>Logar na sua conta</h1>
         {message && <span>{message}</span>}
@@ -89,18 +90,16 @@ export function Login() {
           </div>
 
           <button type="submit">Logar</button>
-        </form>
-        <div className={styles.register}>
+          <div className={styles.register}>
           <p>Você não tem uma conta?</p>
           <p>
             <NavLink to="/register">Criar</NavLink>
           </p>
         </div>
+        </form>        
       </div>
 
-      <div className={styles.background}>
-        <img  src={background} alt="background" />
-      </div>
+      <div className={styles.background}></div>
     </div>
   )
 }

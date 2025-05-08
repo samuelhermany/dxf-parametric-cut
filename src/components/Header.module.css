@@ -33,7 +33,7 @@
   }
 }
 
-/* TABLET em modo paisangen */
+/* TABLET em modo paisagem */
 @media (min-width: 768px) and (orientation: landscape) {
   .back svg {
     margin: 2rem 0 0 2rem;
